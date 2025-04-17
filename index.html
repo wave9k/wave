@@ -23,13 +23,13 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      user-select: none; /* Text kann nicht markiert werden */
     }
 
     body {
       font-family: 'Inter', sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
-      margin: 0;
       overflow-x: hidden;
       transition: background-color 0.3s, color 0.3s;
     }
@@ -106,13 +106,13 @@
       margin-top: 30px;
       display: flex;
       justify-content: center;
-      gap: 60px; /* Breiterer Abstand zwischen den Logos */
+      gap: 60px;
     }
 
     .logos a img {
-      width: 50px; /* Größer, für bessere Sichtbarkeit */
+      width: 50px;
       height: 50px;
-      border-radius: 10px; /* Leicht abgerundete Ecken */
+      border-radius: 10px;
       transition: transform 0.3s, filter 0.3s;
     }
 
@@ -147,15 +147,15 @@
   </div>
 
   <!-- About Section -->
-<div class="section about-section" id="aboutSection">
-  <h2>About My Work</h2>
-  <p>
-    As an active Twitch moderator since 2021, I have had the privilege of managing and moderating communities with over 5.5 million followers. 
-    Over the years, I have gathered a wealth of experience, not only in handling a wide range of situations but also in building meaningful connections with people from the Twitch community. 
-    My approach to moderation is rooted in reliability and thoroughness. I take great pride in ensuring that each community I oversee remains safe, welcoming, and positive. 
-    Every challenge faced has helped me grow and improve, and I continue to apply my skills to create better environments for all members.
-  </p>
-</div>
+  <div class="section about-section" id="aboutSection">
+    <h2>About My Work</h2>
+    <p>
+      As an active Twitch moderator since 2021, I have had the privilege of managing and moderating communities with over 5.5 million followers. 
+      Over the years, I have gathered a wealth of experience, not only in handling a wide range of situations but also in building meaningful connections with people from all walks of life. 
+      My approach to moderation is rooted in reliability and thoroughness. I take great pride in ensuring that each community I oversee remains safe, welcoming, and positive. 
+      Every challenge faced has helped me grow and improve, and I continue to apply my skills to create better environments for all members.
+    </p>
+  </div>
 
   <footer>
     © 2025 wave (Wave9k)
