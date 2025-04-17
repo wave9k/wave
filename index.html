@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>wave – Twitch Mod</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0e0e10;
+      --text-color: #ffffff;
+      --secondary-color: #b0b0b0;
+      --accent: #9147ff;
+    }
+
+    body.light {
+      --bg-color: #f4f4f5;
+      --text-color: #0e0e10;
+      --secondary-color: #444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      overflow-x: hidden;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1, h2 {
+      font-size: 4rem;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: var(--secondary-color);
+      max-width: 800px;
+      line-height: 1.6;
+    }
+
+    .subtext {
+      font-size: 0.95rem;
+      font-style: italic;
+      margin-top: 15px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--secondary-color);
+      margin-top: 20px;
+    }
+
+    .top-right {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 2px solid var(--text-color);
+      border-radius: 20px;
+      padding: 6px 12px;
+      cursor: pointer;
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .logos {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 60px; /* Breiterer Abstand zwischen den Logos */
+    }
+
+    .logos a img {
+      width: 50px; /* Größer, für bessere Sichtbarkeit */
+      height: 50px;
+      border-radius: 10px; /* Leicht abgerundete Ecken */
+      transition: transform 0.3s, filter 0.3s;
+    }
+
+    .logos a img:hover {
+      transform: scale(1.1);
+      filter: brightness(1.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- Theme Toggle -->
+  <div class="top-right">
+    <button class="theme-toggle" onclick="toggleTheme()">☀️ / 🌙</button>
+  </div>
+
+  <!-- Main Section -->
+  <div class="section main-section">
+    <h1>wave</h1>
+    <p>Twitch Moderator · Discord Organisator · Enthusiast</p>
+    <div class="subtext">feel free to dm me.</div>
+    <div class="logos">
+      <a href="https://www.twitch.tv/wave9k" target="_blank" title="Twitch">
+        <img src="https://static.twitchcdn.net/assets/favicon-32-e29e246c157142c94346.png" alt="Twitch Logo">
+      </a>
+      <a href="http://discordapp.com/users/248174180632100864" target="_blank" title="Discord">
+        <img src="https://cdn.icon-icons.com/icons2/2108/PNG/512/discord_icon_130958.png" alt="Discord Logo">
+      </a>
+      <a href="https://mlu.terrance.cc/user/wave9k" target="_blank" title="MLU">
+        <img src="https://yt3.googleusercontent.com/O2UEt_sd23xo1ASKkGSnAGHyShAR6Xb5cj4z26H05fw8ohw5ie3Dkh_pC7iqSck9uR-2iORgzA=s900-c-k-c0x00ffffff-no-rj" alt="MLU Logo">
+      </a>
+    </div>
+  </div>
+
+  <!-- About Section -->
+<div class="section about-section" id="aboutSection">
+  <h2>About My Work</h2>
+  <p>
+    As an active Twitch moderator since 2021, I have had the privilege of managing and moderating communities with over 5.5 million followers. 
+    Over the years, I have gathered a wealth of experience, not only in handling a wide range of situations but also in building meaningful connections with people from the Twitch community. 
+    My approach to moderation is rooted in reliability and thoroughness. I take great pride in ensuring that each community I oversee remains safe, welcoming, and positive. 
+    Every challenge faced has helped me grow and improve, and I continue to apply my skills to create better environments for all members.
+  </p>
+</div>
+
+  <footer>
+    © 2025 wave (Wave9k)
+  </footer>
+
+  <script>
+    // Add fade-in effect to sections on load or scroll
+    const sections = document.querySelectorAll('.section');
+
+    const handleVisibility = () => {
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) { // Trigger earlier
+          section.classList.add('visible');
+        }
+      });
+    };
+
+    window.addEventListener('load', handleVisibility);
+    window.addEventListener('scroll', handleVisibility);
+
+    // Theme toggle
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+    }
+  </script>
+</body>
+</html>
