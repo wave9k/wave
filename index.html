@@ -189,7 +189,7 @@
     <button id="playPauseBtn">▶️</button>
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.1" />
   </div>
-<audio id="bgMusic" autoplay muted loop>
+<audio id="bgMusic" muted loop>
   <source src="assets/audio/StayinAliveSong.mp3" type="audio/mpeg">
   Dein Browser unterstützt kein Audio.
 </audio>
@@ -260,12 +260,17 @@
     // Set volume to 0.1
     bgMusic.volume = 0.1;
 
-    // Automatically play music on load
-    window.addEventListener('load', () => {
+    // Wait for user interaction to play music
+    const startMusic = () => {
       bgMusic.muted = false;
       bgMusic.play();
       playPauseBtn.textContent = '⏸️';
-    });
+      document.removeEventListener('click', startMusic);
+      document.removeEventListener('scroll', startMusic);
+    };
+
+    document.addEventListener('click', startMusic);
+    document.addEventListener('scroll', startMusic);
 
     playPauseBtn.addEventListener('click', () => {
       if (bgMusic.paused) {
