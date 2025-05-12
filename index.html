@@ -23,7 +23,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      user-select: none; /* Text kann nicht markiert werden */
+      user-select: none;
     }
 
     body {
@@ -32,6 +32,27 @@
       color: var(--text-color);
       overflow-x: hidden;
       transition: background-color 0.3s, color 0.3s;
+    }
+
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--accent);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      z-index: 2000;
+      transition: opacity 0.5s ease;
+    }
+
+    #loader.hidden {
+      opacity: 0;
+      pointer-events: none;
     }
 
     .section {
@@ -120,13 +141,58 @@
       transform: scale(1.1);
       filter: brightness(1.2);
     }
+
+    .audio-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(20, 20, 20, 0.8);
+      padding: 10px 15px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+
+    .audio-controls button {
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .audio-controls button:hover {
+      color: var(--accent);
+    }
+
+    .audio-controls input[type="range"] {
+      cursor: pointer;
+      accent-color: var(--accent);
+    }
   </style>
 </head>
 <body>
+  <!-- Ladebildschirm -->
+  <div id="loader">Wird geladen...</div>
+
   <!-- Theme Toggle -->
   <div class="top-right">
     <button class="theme-toggle" onclick="toggleTheme()">☀️ / 🌙</button>
   </div>
+
+  <!-- Audio Player -->
+  <div class="audio-controls">
+    <button id="playPauseBtn">▶️</button>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
+  </div>
+  <audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/audio/2023/03/15/audio_94ba4f8ed6.mp3" type="audio/mpeg">
+    Dein Browser unterstützt kein Audio.
+  </audio>
 
   <!-- Main Section -->
   <div class="section main-section">
@@ -137,7 +203,7 @@
       <a href="https://www.twitch.tv/wave9k" target="_blank" title="Twitch">
         <img src="https://static.twitchcdn.net/assets/favicon-32-e29e246c157142c94346.png" alt="Twitch Logo">
       </a>
-      <a href="http://discordapp.com/users/248174180632100864" target="_blank" title="Discord">
+      <a href="https://discordapp.com/users/248174180632100864" target="_blank" title="Discord">
         <img src="https://cdn.icon-icons.com/icons2/2108/PNG/512/discord_icon_130958.png" alt="Discord Logo">
       </a>
       <a href="https://mlu.terrance.cc/user/wave9k" target="_blank" title="MLU">
@@ -149,15 +215,13 @@
   <!-- About Section -->
   <div class="section about-section" id="aboutSection">
     <h2>About My Work</h2>
-<p>
-  As an active Twitch moderator since 2021, I have had the privilege of managing and moderating communities with over 5.5 million followers. 
-  Over the years, I have gathered a wealth of experience, not only in handling a wide range of situations but also in building meaningful connections with people from all walks of life. 
-  My approach to moderation is rooted in reliability and thoroughness. I take great pride in ensuring that each community I oversee remains safe, welcoming, and positive. 
-  Every challenge faced has helped me grow and improve, and I continue to apply my skills to create better environments for all members.
-</p>
-<hr style="border: 1px solid var(--secondary-color); margin: 20px 0;">
-<p>
-</p>
+    <p>
+      As an active Twitch moderator since 2021, I have had the privilege of managing and moderating communities with over 5.5 million followers. 
+      Over the years, I have gathered a wealth of experience, not only in handling a wide range of situations but also in building meaningful connections with people from all walks of life. 
+      My approach to moderation is rooted in reliability and thoroughness. I take great pride in ensuring that each community I oversee remains safe, welcoming, and positive. 
+      Every challenge faced has helped me grow and improve, and I continue to apply my skills to create better environments for all members.
+    </p>
+    <hr style="border: 1px solid var(--secondary-color); margin: 20px 0;">
   </div>
 
   <footer>
@@ -165,25 +229,49 @@
   </footer>
 
   <script>
-    // Add fade-in effect to sections on load or scroll
-    const sections = document.querySelectorAll('.section');
+    // Ladeeffekt ausblenden
+    window.addEventListener('load', () => {
+      document.getElementById('loader').classList.add('hidden');
+    });
 
+    // Fade-in Effekt
+    const sections = document.querySelectorAll('.section');
     const handleVisibility = () => {
       sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) { // Trigger earlier
+        if (rect.top < window.innerHeight - 100) {
           section.classList.add('visible');
         }
       });
     };
-
     window.addEventListener('load', handleVisibility);
     window.addEventListener('scroll', handleVisibility);
 
-    // Theme toggle
+    // Theme Toggle
     function toggleTheme() {
       document.body.classList.toggle('light');
     }
+
+    // Musiksteuerung
+    const bgMusic = document.getElementById('bgMusic');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+
+    bgMusic.volume = 0.5;
+
+    playPauseBtn.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        playPauseBtn.textContent = '⏸️';
+      } else {
+        bgMusic.pause();
+        playPauseBtn.textContent = '▶️';
+      }
+    });
+
+    volumeSlider.addEventListener('input', () => {
+      bgMusic.volume = volumeSlider.value;
+    });
   </script>
 </body>
 </html>
